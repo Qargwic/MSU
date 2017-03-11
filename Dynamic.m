@@ -2,7 +2,7 @@ classdef Dynamic < Given
     properties
         maxTime = 1;
         maxSteps = 20;
-        espl = 0.01;
+        epsl = 0.01;
     end
     methods
         function obj = Dynamic(p)
@@ -19,30 +19,42 @@ classdef Dynamic < Given
                 x(1)*obj.Ph ];
         end
         
-        function [xx, yy, tt] = graph(obj, Method, U, t, tStep, x0)
-            tt = 0:tStep:t;
-            [xx, yy] = obj.nsim(tt, U, x0, Method);
+        function [xx, yy, tt] = graph(obj, Method, U, t0, h, x0)
+            [xx, yy, tt] = obj.nsim(t0, h, U, x0, Method);
         end
    
     end
     
     methods(Access = private)
-        function [xout, yout] = nsim(obj, t, u, x0, Method)
+        function [xout, yout, t] = nsim(obj, t0, h, u, x0, Method)
+            i = 0;
             x = x0;
-            h=t(2)-t(1);
             xout=x;
-            yout = obj.fun_F(x, u, t(1));
-            for j=1:length(t)-1,
-              tt=t(j);
+            yout = obj.fun_F(x, u, t0);
+            last = [xout; yout];
+            tt = t0;
+            while true
               switch(Method)
                   case Methods.Eiler 
                       xh = obj.eiler(tt,h,x,u);
               end
-              
-              tt=tt+h;
-              x=xh;
+              x = xh;
+              tt = tt+h;
+              y = obj.fun_G(x, u, tt);
+                            
               xout = [xout x];
-              yout = [yout obj.fun_G(x, u, tt)]; 
+              yout = [yout y];
+
+              if abs(sum(last - [x; y])) < obj.epsl
+                  i = i + 1;
+              else
+                  i = 0;
+              end
+              if i >= obj.maxSteps || tt>obj.maxTime
+                  t = t0:h:tt;
+                  return
+              end
+              last = [x; y];
             end
         end
         

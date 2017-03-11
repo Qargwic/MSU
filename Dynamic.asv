@@ -1,5 +1,9 @@
 classdef Dynamic < Given
-    
+    properties
+        maxTime = 1;
+        maxSteps = 20;
+        espl = 0.01;
+    end
     methods
         function obj = Dynamic(p)
             obj.p = p;
@@ -15,30 +19,51 @@ classdef Dynamic < Given
                 x(1)*obj.Ph ];
         end
         
-        function [xx, yy, tt] = graph(obj, Method, U, t, tStep, x0)
-            tt = 0:tStep:t;
-            [xx, yy] = NSIM(obj, 'fun_F', 'fun_G', tt, U, x0, Method);
+        function [xx, yy, tt] = graph(obj, Method, U, t0, h, x0)
+            [xx, yy, t] = obj.nsim(t0, h, U, x0, Method);
         end
    
     end
     
     methods(Access = private)
-        function [xx, yy] = nsim(obj, t, u, x0, Method)
-            x=x0;
-            h=t(2)-t(1);
+        function [xout, yout] = nsim(obj, t0, h, u, x0, Method)
+            i = 0;
+            x = x0;
             xout=x;
-            yout = obj.fun_F(x, u, t(1));
-            for j=1:length(t)-1,
-              tt=t(j);
-              xh=feval(Method,F,tt,h,x,u,obj);
+            yout = obj.fun_F(x, u, t0);
+            last = [xout; yout];
+            tt = t0;
+            while true
+              switch(Method)
+                  case Methods.Eiler 
+                      xh = obj.eiler(tt,h,x,u);
+              end
+              x = xh;
               tt=tt+h;
-              x=xh;
+              y = obj.fun_G(x, u, tt);
+                            
               xout = [xout x];
-              yout = [yout obj.fun_G(x, u, tt)]; 
+              yout = [yout y];
+              
+              if abs(sum(last - [xout; yout])) < obj.epsl
+                  i = i + 1;
+              else
+                  i = 0;
+              end
+              if i >= obj.maxStep
+                  return
+              end
+              last = [x; y];
             end
         end
         
-        function 
+        function xh = eiler(obj,t,h,x,u)
+            th=t;
+            xh=x;
+            w=x;
+            z = obj.fun_F(w,u,th);
+            xh=xh+h*z;
+        end
         
     end
     
