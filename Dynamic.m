@@ -11,7 +11,7 @@ classdef Dynamic < Given
         
         function z = fun_F(obj, x, U, t)
             z = [1/(obj.W*obj.Ph)*(U(1)*obj.Uc_n-obj.i_n*(obj.R_ya+obj.R_v)*polyval(obj.p, x(1))-obj.Ce*x(2)*obj.w_n*x(1)*obj.Ph);
-                1/(obj.J*obj.w_n)*(obj.Cm*obj.Ph*obj.i_n*polyval(obj.p, x(1))-U(2)*obj.Mc_n)];
+                1/(obj.J*obj.w_n)*(obj.Cm*obj.Ph*obj.i_n*x(1)*polyval(obj.p, x(1))-U(2)*obj.Mc_n)];
         end
         
         function z = fun_G(obj, x, U, t)
@@ -19,8 +19,8 @@ classdef Dynamic < Given
                 x(1)*obj.Ph ];
         end
         
-        function [xx, yy, tt] = graph(obj, Method, U, t0, h, x0)
-            [xx, yy, tt] = obj.nsim(t0, h, U, x0, Method);
+        function [xx, yy, tt] = graph(obj, Pref, Method)
+            [xx, yy, tt] = obj.nsim(Pref.T0, Pref.h, Pref.U, Pref.X0, Method);
         end
    
     end
@@ -30,7 +30,7 @@ classdef Dynamic < Given
             i = 0;
             x = x0;
             xout=x;
-            yout = obj.fun_F(x, u, t0);
+            yout = obj.fun_G(x, u, t0);
             last = [xout; yout];
             tt = t0;
             while true
@@ -61,9 +61,8 @@ classdef Dynamic < Given
         function xh = eiler(obj,t,h,x,u)
             th=t;
             xh=x;
-            w=x;
-            z = obj.fun_F(w,u,th);
-            xh=xh+h*z;
+            z = obj.fun_F(x,u,th);
+            xh=xh + h*z;
         end
         
     end
