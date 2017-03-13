@@ -38,9 +38,9 @@ classdef Dynamic < Given
                   case Methods.Eiler 
                       xh = obj.eiler(tt,h,x,u);
                   case Methods.EilerMod 
-                      xh = obj.eiler(tt,h,x,u);
+                      xh = obj.eilerMod(tt,h,x,u);
                   case Methods.RK4S 
-                      xh = obj.eiler(tt,h,x,u);
+                      xh = obj.RK4S(tt,h,x,u);
               end
               x = xh;
               tt = tt+h;
@@ -75,7 +75,7 @@ classdef Dynamic < Given
             z = obj.fun_F(x,u,th);
             th = t+h;
             xhz=xh+h*z;
-            z = obj.fun_F(xhz,u,th);
+            zh = obj.fun_F(xhz,u,th);
             xh = xh+h*(z+zh)/2;
         end
         
