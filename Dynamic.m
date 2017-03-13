@@ -37,6 +37,10 @@ classdef Dynamic < Given
               switch(Method)
                   case Methods.Eiler 
                       xh = obj.eiler(tt,h,x,u);
+                  case Methods.EilerMod 
+                      xh = obj.eiler(tt,h,x,u);
+                  case Methods.RK4S 
+                      xh = obj.eiler(tt,h,x,u);
               end
               x = xh;
               tt = tt+h;
@@ -59,10 +63,33 @@ classdef Dynamic < Given
         end
         
         function xh = eiler(obj,t,h,x,u)
-            th=t;
-            xh=x;
+            th = t;
+            xh = x;
             z = obj.fun_F(x,u,th);
-            xh=xh + h*z;
+            xh = xh + h*z;
+        end
+        
+        function xh = eilerMod(obj,t,h,x,u)
+            th = t;
+            xh = x;
+            z = obj.fun_F(x,u,th);
+            th = t+h;
+            xhz=xh+h*z;
+            z = obj.fun_F(xhz,u,th);
+            xh = xh+h*(z+zh)/2;
+        end
+        
+        function xh = RK4S(obj,t,h,x,u)
+            a = [0.5*h 0.5*h h h 0.5*h]';
+            th = t;
+            xh = x;
+            w = x;
+            for i=1:4,
+            z = obj.fun_F(w,u,th);
+            th = t+a(i);
+            xh = xh+a(i+1)*z/3.0;
+            w = x+a(i)*z;
+            end
         end
         
     end

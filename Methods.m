@@ -1,5 +1,5 @@
 classdef Methods
    enumeration
-      Eiler
+      Eiler, EilerMod, RK4S
    end
 end
