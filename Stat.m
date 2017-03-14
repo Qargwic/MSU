@@ -11,7 +11,7 @@ classdef Stat < Given
         
         function z = fun_F(obj, x, U)
             z = [1/(obj.W*obj.Ph)*(U(1)*obj.Uc_n-obj.i_n*(obj.R_ya+obj.R_v)*polyval(obj.p, x(1))-obj.Ce*x(2)*obj.w_n*x(1)*obj.Ph);
-                1/(J*w_n)*(Cm*Ph*i_n*(p(1)*x(1)*x(1)*x(1)*x(1)+p(3)*x(1)*x(1))-U(2)*Mc_n)];
+                1/(obj.J*obj.w_n)*(obj.Cm*obj.Ph*obj.i_n*(p(1)*x(1)^4+p(3)*x(1)^2)-U(2)*obj.Mc_n)];
         end
         
         function z = fun_G(obj, x, U)
