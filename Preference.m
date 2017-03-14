@@ -8,6 +8,13 @@ classdef Preference
     end
     
     methods
+    	function setU(obj, ind, uo, step, en)
+    		u = uo:step:en;
+    		if ind == 1
+    			obj.U = [u ;ones(1, length(u))];
+    		else
+    			obj.U = [ones(1, length(u)); u];
+    	end
     end
     
 end
