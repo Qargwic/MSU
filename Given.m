@@ -17,5 +17,11 @@ classdef Given
         J = 0.1;    %Момент инерции двигателя 
     end
     
+    methods (Static)
+        function dp = dpol(p, x)
+            dp = polyval(polyder(p), x);
+        end
+    end
+    
 end
 
