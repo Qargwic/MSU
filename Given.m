@@ -1,9 +1,9 @@
-classdef Given
+classdef Given < handle
 
     properties(GetAccess = public, SetAccess = public)
         p = [];
     end
-    properties(Constant = true)
+    properties
         W = 60;     %Количество витков
         i_n = 50;   %Номинальный ток 
         Ph = 0.01;  %Поток

@@ -19,13 +19,13 @@ classdef Stat < Given
                 obj.Cm*obj.Ph*obj.i_n/(obj.J*obj.w_n)*(obj.p(1)*4*x(1)^3+obj.p(3)*2*x(1)) 0];
         end
         
-        function [xx, uu] = graph(obj, Pref, count)
+        function [xx, uu] = graph(obj, Pref)
             xx = Pref.X0;
-            for i:1:length(Pref.U(1,:));
-              x = obj.nsim(Pref.T0, Pref.h, Pref.U, Pref.X0, Method);
+            for i = 1:length(Pref.U(1,:));
+              x = obj.newton(Pref.X0, Pref.U);
               xx = [xx x];
             end
-            u = Pref.U;
+            uu = Pref.U;
 
         end
    
@@ -37,7 +37,7 @@ classdef Stat < Given
             y = obj.fun_F(x0, u);
             x = x0;
             while(norm(y) > e)
-                x = obj.fun_G(x, u);
+                gr = obj.fun_G(x, u);
                 x = x - inv(gr)*y;
                 y = obj.fun_F(x, u); 
             end

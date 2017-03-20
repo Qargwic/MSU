@@ -1,7 +1,7 @@
 classdef Dynamic < Given
     properties
         maxTime = 1;
-        maxSteps = 20;
+        maxSteps = 20; %Max steps without changes
         epsl = 0.01;
     end
     methods
