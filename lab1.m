@@ -1,0 +1,12 @@
+G = Graphic();
+[p, SKO, epsl, mPh, mF] = polinom(3);
+tt = 0:0.01:2;
+G.setG('Полином 3 ст.', tt, polyval(p(1,:),tt), mPh(1,:), mF(1,:),  '*r');
+tt = 0:1:200;
+G.setG('Полином 3 ст. нн', tt, polyval(p(2,:),tt), mPh(2,:), mF(2,:),  '*r');
+[p, SKO, epsl, mPh, mF] = polinom(5);
+tt = 0:0.01:2;
+G.setG('Полином 5 ст.', tt, polyval(p(1,:),tt), mPh(1,:), mF(1,:),  '*r');
+tt = 0:1:200;
+G.setG('Полином 5 ст. нн', tt, polyval(p(2,:),tt), mPh(2,:), mF(2,:),  '*r');
+G.draw(2);

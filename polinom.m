@@ -1,10 +1,14 @@
-function [p, SKO, epsl] = polinom(Given, deg)
+function [p, SKO, epsl, mPh, mF] = polinom(deg)
     %Ph = [0 12 18 24 36 48 60 72 84]';
+    G = Given();
     Ph_n = [0 0.58 0.8 0.91 1.07 1.21 1.35 1.47 1.58]';
-    Ph = Ph_n*Given.Ph;
+    Ph = Ph_n/G.Ph;
     I = [0 20 30 40 60 80 100 120 140]';
     F = [0 1200 1800 2400 3600 4800 6000 7200 8400]';
-    F_n = I/Given.i_n;
+    F_n = I/G.i_n;
+    
+    mPh = [Ph_n'; Ph'];
+    mF = [F_n'; F'];
     
     Gn = [];
     G = [];
