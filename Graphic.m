@@ -1,11 +1,11 @@
 classdef Graphic < handle
   
     properties
-        YY = cell(1,10);
-        XX = cell(1,10);
+        YY = {};
+        XX = {};
         groups = [];
-        names = cell(1,10);
-        type = cell(1,10);
+        names = {};
+        type = {};
         stType = 'b';
         stName = '';
         count = 0;
@@ -33,6 +33,18 @@ classdef Graphic < handle
                if ischar(obj.names{i})
                    title(obj.names{i});
                end
+            end
+        end
+        
+        function setGs(obj, XX, YY)
+            for i = 1:length(YY(:,1))
+                obj.setG(XX(min(i, length(XX(:,1))),:), YY(i,:));
+            end
+        end
+        
+        function setNs(obj, varargin)
+            for i = 1:min(nargin - 1, obj.count)
+               obj.names{i} = varargin{i};
             end
         end
         
@@ -64,6 +76,8 @@ classdef Graphic < handle
                     end
                 end
             end
+            obj.type{j} = [];%for fix error exceeds index
+            obj.names{obj.count} = [];
         end
         
         function clear(obj)
@@ -75,6 +89,10 @@ classdef Graphic < handle
             obj.count = 0;
             obj.gr = 0;
         end
+        
+    end
+    
+    methods (Static)
         
     end
     
