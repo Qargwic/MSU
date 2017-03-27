@@ -81,11 +81,11 @@ classdef Graphic < handle
         end
         
         function clear(obj)
-            obj.YY = cell(1,10);
-            obj.XX = cell(1,10);
+            obj.YY = {};
+            obj.XX = {};
             obj.groups = [];
-            obj.names = cell(1,10);
-            obj.type = cell(1,10);
+            obj.names = {};
+            obj.type = {};
             obj.count = 0;
             obj.gr = 0;
         end
