@@ -21,6 +21,9 @@ classdef Dynamic < Given
         
         function [xx, yy, tt] = graph(obj, Pref, varargin)
             [xx, yy, tt] = obj.nsim(Pref.T0, Pref.h, Pref.U, Pref.X0, Pref.Method);
+            xBuf = Pref.X0;
+            uBuf = Pref.U;
+            T0 = Pref.T0;
             for i = 1:nargin-2
                 Pref.X0 = xx(:,length(xx(1,:)));
                 Pref.U = varargin{i};
@@ -30,6 +33,9 @@ classdef Dynamic < Given
                 yy = [yy yy1];
                 tt = [tt tt1];
             end
+            Pref.X0 = xBuf;
+            Pref.U = uBuf;
+            Pref.T0 = T0;
         end
    
     end
