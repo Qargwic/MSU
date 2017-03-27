@@ -6,6 +6,7 @@ classdef Preference < handle
         T0 = 0;
         h = 0.001;
         T = 1;
+        Method = Methods.Eiler;
     end
     
     methods

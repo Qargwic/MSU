@@ -19,8 +19,17 @@ classdef Dynamic < Given
                 x(1)*obj.Ph ];
         end
         
-        function [xx, yy, tt] = graph(obj, Pref, Method)
-            [xx, yy, tt] = obj.nsim(Pref.T0, Pref.h, Pref.U, Pref.X0, Method);
+        function [xx, yy, tt] = graph(obj, Pref, varargin)
+            [xx, yy, tt] = obj.nsim(Pref.T0, Pref.h, Pref.U, Pref.X0, Pref.Method);
+            for i = 1:nargin-2
+                Pref.X0 = xx(:,length(xx(1,:)));
+                Pref.U = varargin{i};
+                Pref.T0 = tt(length(tt)) + Pref.h;
+                [xx1, yy1, tt1] = obj.nsim(Pref.T0, Pref.h, Pref.U, Pref.X0, Pref.Method);
+                xx = [xx xx1];
+                yy = [yy yy1];
+                tt = [tt tt1];
+            end
         end
    
     end
@@ -54,7 +63,7 @@ classdef Dynamic < Given
               else
                   i = 0;
               end
-              if i >= obj.maxSteps || tt>obj.maxTime
+              if i >= obj.maxSteps || tt>(obj.maxTime+t0)
                   t = t0:h:tt;
                   return
               end
