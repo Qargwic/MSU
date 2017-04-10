@@ -4,9 +4,11 @@ classdef Linear < Given
         B;
         C;
         D;
+        x0;
     end
     methods
         function obj = Linear(p, x)
+            obj.x0 = x;
             obj.p = p;
             obj.A = obj.getA(x);
             obj.B = obj.getB(x);
@@ -27,16 +29,17 @@ classdef Linear < Given
                 plot(real(lmd), imag(lmd), '*')
         end
         
-        function [xx, yy, tt] = graph(obj, Pref)
-            tt = Pref.T0:Pref.h:Pref.T;
-            [yy, xx] = obj.lmsim(tt, Pref.X0, Pref.U);
+        function [yy, xx] = graph(obj, t, Pref)
+            [yy, xx] = obj.lmsim(t, obj.x0, Pref.U);
         end
+        
     end
     
     methods (Access = private)
         
-        function [y,x]=lmsim(obj,t,x0,u)
+        function [y,x]=lmsim(obj,t,x0,u0)
             h=t(2)-t(1);
+            u = [1*ones(size(t)); ones(size(t))];
             [m,n] = size(obj.A);
             [m,nb] = size(obj.B);
             s = expm([[obj.A obj.B]*h; zeros(nb,n+nb)]);

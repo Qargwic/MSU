@@ -1,6 +1,6 @@
 classdef Dynamic < Given
     properties
-        maxTime = 1;
+        maxTime = 0.09;
         maxSteps = 20; %Max steps without changes
         epsl = 0.01;
     end
