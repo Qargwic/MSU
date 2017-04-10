@@ -20,9 +20,10 @@ classdef Stat < Given
         end
         
         function [xx, uu] = graph(obj, Pref)
-            xx = Pref.X0;
+            xx = [];
+            x = Pref.X0;
             for i = 1:length(Pref.U(1,:));
-              x = obj.newton(Pref.X0, Pref.U);
+              x = obj.newton(x, Pref.U(:,i), Pref.eps);
               xx = [xx x];
             end
             uu = Pref.U;
@@ -38,7 +39,7 @@ classdef Stat < Given
             x = x0;
             while(norm(y) > e)
                 gr = obj.fun_G(x, u);
-                x = x - inv(gr)*y;
+                x = x - gr\y;
                 y = obj.fun_F(x, u); 
             end
         end

@@ -21,7 +21,7 @@ classdef Linear < Given
             obj.D = obj.getD(x); 
         end  
         
-        function lmd = dslyRoots(obj, M)
+        function lmd = dslyRoots(obj, M)  %M - A, B, C, D
             lmd = roots(poly(eval(['obj.' M])));
             figure, 
                 plot(real(lmd), imag(lmd), '*')

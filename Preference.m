@@ -6,6 +6,7 @@ classdef Preference < handle
         T0 = 0;
         h = 0.001;
         T = 1;
+        eps = 0.001;
         Method = Methods.Eiler;
     end
     
@@ -13,6 +14,7 @@ classdef Preference < handle
         
     	function setU(obj, ind, uo, step, en)
     		u = uo:step:en;
+            obj.h = step;
     		if ind == 1
     			obj.U = [u ;ones(1, length(u))];
     		else
