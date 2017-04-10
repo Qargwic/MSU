@@ -6,16 +6,21 @@ D = Dynamic(p);
 L = Linear(p, x0{1});
 P = Preference; 
 G = Graphic;
+P.T = 0.09;
 
-t = 0:0.001:0.08;
-[yy, xx] = L.graph(t,P);
-P.X0 = [0;0];
+P.X0 = [0.3; 0];
+P.U = [0; 0];
+[yy, xx, t] = L.graph(P);
+
+P.X0 = [1.3*1.54; 0.3619];
+P.U = [1; 1.1];
 [xx1, yy1, t1] = D.graph(P);
-t1 = t1(1:length(t1)-9);
-xx1 = xx1(:,10:length(xx1(1,:)));
-yy1 = yy1(:,10:length(yy1(1,:)));
-G.setG(t,xx(1,:)+2,'r', t1, xx1(1,:));
-G.setG(t,xx(2,:)-0.35,'r', t1, xx1(2,:));
-G.setG(t,yy(1,:)+210,'r', t1, yy1(1,:));
-G.setG(t,yy(2,:)+0.02,'r', t1, yy1(2,:));
+%t1 = t1(1:length(t1)-9);
+%xx1 = xx1(:,10:length(xx1(1,:)));
+%yy1 = yy1(:,10:length(yy1(1,:)));
+
+G.setG(t,xx(1,:)+ 1.54,'r', t1, xx1(1,:));
+G.setG(t,xx(2,:) + 0.3619,'r', t1, xx1(2,:));
+%G.setG(t,yy(1,:),'r', t1, yy1(1,:));
+%G.setG(t,yy(2,:),'r', t1, yy1(2,:));
 G.draw(1);
