@@ -1,11 +1,11 @@
 cass={[1 1];[1 0.8];[1 1.2];[0.8 1];[1.2 1];[0.8 0.8];[1.2 1.2]}; 
-p = polinom(3); 
+p = polinom(5); 
 p = p(1,:); 
 D = Dynamic(p); 
 P = Preference; 
 G = Graphic; 
 P.X0=[0; 0]; 
-for i=1:7 
+for i=1:length(cass); 
     figure() 
     [xx, yy, t] = D.graph(P, cass{i}); 
     G.setGs(t,xx) 
